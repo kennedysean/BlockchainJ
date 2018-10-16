@@ -8,8 +8,8 @@ public class Sha256 {
             byte[] hash = digest.digest(input.getBytes("UTF-8"));
             StringBuffer hexString = new StringBuffer(); // hexadecimal hash
 
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
+            for (byte hash1 : hash) {
+                String hex = Integer.toHexString(0xff & hash1);
                 if (hex.length() == 1) {
                     hexString.append('0');
                 }

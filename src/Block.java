@@ -3,8 +3,8 @@ import java.util.Date;
 public class Block {
 
     private String data; // data in the block e.g. transactions, messages, etc.
-    public String previousHash; // digital signature of previous block in the blockchain
-    public String merkleRootHash; // digital signature of block
+    private String previousHash; // digital signature of previous block in the blockchain
+    private String merkleRootHash; // digital signature of block
     private long timeStamp; // time stamp of block at moment of creation
     private int nonce = 0; // used for guessing target hash when mining a block
     private int difficulty; // number of leading zeros in block hash
@@ -22,10 +22,9 @@ public class Block {
         /*Use all desired immutable parts of block to calculate encrypted
          *block hash using two iterations of the SHA256 algorithm.
          */
-        String block_string = previousHash + Long.toString(timeStamp) + Integer.toString(nonce) + data;
+        String block_string = previousHash + timeStamp + nonce + data;
         String singleSha256 = Sha256.applySha256(block_string);
-        String doubleSha256 = Sha256.applySha256(singleSha256);
-        return doubleSha256;
+        return Sha256.applySha256(singleSha256);
     }
 
     public void mineBlock() {
@@ -38,4 +37,14 @@ public class Block {
         }
         System.out.println("Block successfully mined: " + merkleRootHash);
     }
+
+    public String previous() {
+        return this.previousHash;
+    }
+
+    public String hash() {
+        return this.merkleRootHash;
+    }
+
+
 }
