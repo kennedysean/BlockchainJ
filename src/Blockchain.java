@@ -8,40 +8,50 @@ public class Blockchain {
 
   private ArrayList<Block> blockchain;
 
+  /**
+   * Public constructor for a blockchain object.
+   */
   public Blockchain() {
     this.blockchain = new ArrayList<>();
   }
 
+  /**
+   * Adds a block to the end of the block chain.
+   * @param block  the block to add to the chain
+   */
   public void add(Block block) {
     blockchain.add(block);
   }
 
-  public Block get(int idx) {
-    if (idx < blockchain.size() && idx >= 0) {
-      return blockchain.get(idx);
-    }
-
-    throw new Error("Error: Index is out of range");
-  }
-
-  public boolean isValid() {
+  /**
+   * Checks if {@code this} is a valid blockchain.
+   * @return  true, if valid. otherwise, false
+   */
+  public boolean isValidBlockchain() {
     for (int i = 1; i < blockchain.size(); i++) {
       Block currentBlock = blockchain.get(i);
-      Block previousBlock = blockchain.get(i-1);
+      Block previousBlock = blockchain.get(i - 1);
       // compare registered merkleRootHash and calculated merkleRootHash:
-      if (!(currentBlock.hash().equals(currentBlock.doubleSha256()) &&
-          previousBlock.hash().equals(currentBlock.previous()))) {
-        System.out.println("\nBlock " + (i+1) + " hash has been altered.");
+      if (!(currentBlock.isValid() && previousBlock.isValid())) {
+        System.out.println("\nBlock " + (i + 1) + " hash has been altered.");
         return false;
       }
     }
     return true;
   }
 
+  /**
+   * Returns the last block in {@code this}.
+   * @return  the last block in the blockchain
+   */
   public Block getLast() {
     return this.blockchain.get(blockchain.size() - 1);
   }
 
+  /**
+   * Creates a JSON representation of {@code this} and prints it to a file.
+   * @return  the JSON string representation
+   */
   public String toJson() {
     String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockchain);
     try {

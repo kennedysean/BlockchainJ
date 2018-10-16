@@ -1,7 +1,12 @@
 import java.security.MessageDigest;
 
 public class Sha256 {
-    public static String applySha256(String input){
+    /**
+     * Applies SHA256 (Secure Hash Algorithm) to the input string.
+     * @param input  the string to be hashed
+     * @return  the hashed string
+     */
+    public static String applySha256(String input) {
         // apply SHA256 (Secure Hash Algorithm) to the input string
         try {
             MessageDigest digest = MessageDigest.getInstance("Sha-256");
@@ -16,8 +21,7 @@ public class Sha256 {
                 hexString.append(hex);
             }
             return hexString.toString();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
